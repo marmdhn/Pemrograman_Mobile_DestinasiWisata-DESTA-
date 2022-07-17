@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tubes_1/model/place_model.dart';
 import 'package:tubes_1/screens/detailscreen/detail_screen.dart';
 import 'package:tubes_1/screens/home/widgets/recommended_card.dart';
+import 'package:tubes_1/screens/login/login.dart';
 import 'package:tubes_1/utilities/colors.dart';
 
 import 'widgets/category_card.dart';
@@ -57,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: SingleChildScrollView(
             child: Column(children: [
-              //app bar
               Row(
                 children: [
                   const CircleAvatar(
@@ -78,7 +78,29 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ))
-                      ]))
+                      ])),
+                  const SizedBox(
+                    width: 125,
+                  ),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: kPrimaryClr, onPrimary: kWhiteClr),
+                      child: const Text(
+                        'Logout',
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginScreen(),
+                          ),
+                        );
+                      })
+                  // const CircleAvatar(
+                  //   radius: 22,
+                  //   backgroundColor: kPrimaryClr,
+                  //   child: Icon(Icons.logout, color: kWhiteClr),
+                  // )
                 ],
               ),
 
