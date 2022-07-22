@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tubes_1/model/place_model.dart';
+import 'package:tubes_1/screens/review/review_page.dart';
 import 'package:tubes_1/utilities/colors.dart';
 import 'package:tubes_1/screens/home/home_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -27,51 +28,6 @@ class _DetailScreenState extends State<DetailScreen> {
   void initState() {
     super.initState();
     //in first time, this method will be executed
-    _getData();
-  }
-
-  Future _getData() async {
-    try {
-      final response = await http.get(Uri.parse(
-          //you have to take the ip address of your computer.
-          //because using localhost will cause an error
-          "http://192.168.43.3:8080/latihan/list.php"));
-
-      // if response successful
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        // entry data to variabel list _get
-        setState(() {
-          _get = data;
-        });
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future _onSubmit() async {
-    try {
-      return await http.post(
-        Uri.parse("http://192.168.43.3:8080/latihan/create.php"),
-        body: {
-          "title": title.text,
-          "content": content.text,
-        },
-      ).then((value) {
-        //print message after insert to database
-        //you can improve this message with alert dialog
-        var data = jsonDecode(value.body);
-        print(data["message"]);
-
-        Navigator.of(context).pushNamedAndRemoveUntil(
-            '../detailscreen/detail_screen.dart',
-            (Route<dynamic> route) => false);
-      });
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -262,20 +218,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                       onTap: () =>
                                           launch('${widget.placeInfo.maps}')))
                             ]),
-                            const SizedBox(height: 20),
-                            const Text(
-                              "Review's",
-                              style: TextStyle(
-                                  fontSize: 22, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              widget.placeInfo.review,
-                              style: const TextStyle(
-                                color: kGreyClr,
-                                fontSize: 18,
-                              ),
-                            ),
                           ],
                         ),
                       ),
@@ -303,14 +245,13 @@ class _DetailScreenState extends State<DetailScreen> {
                         children: [
                           Expanded(
                             child: TextFormField(
+                              readOnly: true,
                               controller: content,
-                              keyboardType: TextInputType.multiline,
+                              // keyboardType: TextInputType.multiline,
                               // minLines: 5,
                               maxLines: null,
                               decoration: const InputDecoration(
-                                  hintText: "Insert Your Review",
-                                  prefixIcon:
-                                      Icon(Icons.comment, color: kPrimaryClr),
+                                  hintText: "Your Review",
                                   enabledBorder: InputBorder.none,
                                   focusedBorder: InputBorder.none,
                                   filled: false),
@@ -318,26 +259,19 @@ class _DetailScreenState extends State<DetailScreen> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14,
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Note Content is Required!';
-                                }
-                                return null;
-                              },
                             ),
                           ),
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   primary: kPrimaryClr, onPrimary: kWhiteClr),
                               child: const Text(
-                                'SUBMIT',
+                                'VIEW',
                               ),
                               onPressed: () {
-                                _onSubmit();
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
+                                    builder: (context) => ReviewPage(),
                                   ),
                                 );
                               })

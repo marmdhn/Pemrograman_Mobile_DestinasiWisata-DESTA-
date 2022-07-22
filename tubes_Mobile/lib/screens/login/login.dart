@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
 import 'package:tubes_1/screens/home/home_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:tubes_1/authentication/authentication.dart';
+import 'package:tubes_1/providers/authentication.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const users = const {
